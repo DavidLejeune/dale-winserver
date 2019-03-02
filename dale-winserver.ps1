@@ -330,6 +330,62 @@ function write_regular($msg)
     Write-Host "$($msg)" -ForegroundColor White;
 }
 
+function write_action($msg)
+{
+    Write-Host "$($msg)" -ForegroundColor DarkGreen;
+}
+
+function ask_continue(){
+    $Host.UI.RawUI.ForegroundColor = 'white'
+    $Continue = Read-Host -Prompt 'Press enter to return to menu or q to quit ';
+    switch ($Continue)
+    {
+        q
+            {
+            $Host.UI.RawUI.ForegroundColor = 'DarkGreen'
+            Write-Host "Thank you , please come again ...."
+            Write-Host ""
+            $Host.UI.RawUI.ForegroundColor = 'Magenta'
+            exit
+            }
+
+        default
+            {
+                $Menu=$Menu0
+                show_header;
+                show_main_menu;
+            }
+    }
+}
+
+function check_ok()}{
+    $Host.UI.RawUI.ForegroundColor = 'white'
+    $OkNotOk = Read-Host -Prompt "Press '[ENTER]' if this is OK , else type 'q' ? ";
+    # echo $OkNotOk
+    switch ($OkNotOk)
+      {
+          ""
+            {
+              Write-Host "" -ForegroundColor Yellow;
+              # Write-Host "Good! Continuing with the script ..." -ForegroundColor Yellow;
+            }
+          q
+            {
+              show_warning "Something went wrong , check the error ."
+              $Menu="MAIN MENU"
+              show_main_menu;
+            }
+          default
+            {
+                show_warning "You seem to have made an invalid choice." 
+              exit
+            }
+      }
+    
+}
+
+
+
 #------------------------------------------------------------------------------
 #Start Script
 #------------------------------------------------------------------------------

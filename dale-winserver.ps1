@@ -105,6 +105,8 @@ function show_headerintro(){
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
     Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
     Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
+
+
     write_banner_blue $cool_info;
     write_banner_white '>> Author : David Lejeune' 
     write_banner_white ">> Created : 02-03-2019"
@@ -124,12 +126,30 @@ function show_header(){
     $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
     write_reverse_banner_blue "$dt";
     write_reverse_banner_red "WinServer CLI";
-    Write-Host '      ____              __        ' -ForegroundColor Yellow
-    Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
-    Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
-    Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
-    Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
-    Write-Host '';
+    #Write-Host '....%%%%%....%%%%...%%......%%%%%%..........%%...%%..%%%%%%..%%..%%...%%%%...%%%%%%..%%%%%...%%..%%..%%%%%%..%%%%%.....' -ForegroundColor Yellow
+    #Write-Host '....%%..%%..%%..%%..%%......%%..............%%...%%....%%....%%%.%%..%%......%%......%%..%%..%%..%%..%%......%%..%%....' -ForegroundColor Yellow
+    #Write-Host '....%%..%%..%%%%%%..%%......%%%%............%%.%.%%....%%....%%.%%%...%%%%...%%%%....%%%%%...%%..%%..%%%%....%%%%%.....' -ForegroundColor Yellow
+    #Write-Host '....%%..%%..%%..%%..%%......%%..............%%%%%%%....%%....%%..%%......%%..%%......%%..%%...%%%%...%%......%%..%%....' -ForegroundColor Yellow
+    #Write-Host '....%%%%%...%%..%%..%%%%%%..%%%%%%...........%%.%%...%%%%%%..%%..%%...%%%%...%%%%%%..%%..%%....%%....%%%%%%..%%..%%....' -ForegroundColor Yellow
+    #Write-Host '.......................................................................................................................' -ForegroundColor Yellow
+    #Write-Host " ____              __                  __      __              ____                                           " -ForegroundColor Yellow                     
+    #Write-Host "/\  _`\           /\ \                /\ \  __/\ \  __        /\  _`\                                         " -ForegroundColor Yellow                   
+    #Write-Host "\ \ \/\ \     __  \ \ \         __    \ \ \/\ \ \ \/\_\    ___\ \,\L\_\     __   _ __   __  __     __   _ __  " -ForegroundColor Yellow
+    #Write-Host " \ \ \ \ \  /'__`\ \ \ \  __  /'__`\   \ \ \ \ \ \ \/\ \ /' _ `\/_\__ \   /'__`\/\`'__\/\ \/\ \  /'__`\/\`'__\" -ForegroundColor Yellow
+    #Write-Host "  \ \ \_\ \/\ \L\.\_\ \ \L\ \/\  __/    \ \ \_/ \_\ \ \ \/\ \/\ \/\ \L\ \/\  __/\ \ \/ \ \ \_/ |/\  __/\ \ \/ " -ForegroundColor Yellow
+    #Write-Host "   \ \____/\ \__/.\_\\ \____/\ \____\    \ `\___x___/\ \_\ \_\ \_\ `\____\ \____\\ \_\  \ \___/ \ \____\\ \_\ " -ForegroundColor Yellow
+    #Write-Host "    \/___/  \/__/\/_/ \/___/  \/____/     '\/__//__/  \/_/\/_/\/_/\/_____/\/____/ \/_/   \/__/   \/____/ \/_/ "-ForegroundColor Yellow
+    #Write-Host "    ___        __        __    __ _       __                          " -ForegroundColor Yellow  
+    #Write-Host "   /   \__ _  / /  ___  / / /\ \ (_)_ __ / _\ ___ _ ____   _____ _ __ " -ForegroundColor Yellow  
+    #Write-Host "  / /\ / _` |/ /  / _ \ \ \/  \/ / | '_ \\ \ / _ \ '__\ \ / / _ \ '__|" -ForegroundColor Yellow  
+    #Write-Host " / /_// (_| / /__|  __/  \  /\  /| | | | |\ \  __/ |   \ V /  __/ |   " -ForegroundColor Yellow  
+    #Write-Host "/___,' \__,_\____/\___|   \/  \/ |_|_| |_\__/\___|_|    \_/ \___|_|  " -ForegroundColor Yellow  
+    
+    Write-Host "    dMMMMb  .aMMMb  dMP     dMMMMMP        dMP dMP dMP dMP dMMMMb  .dMMMb  dMMMMMP dMMMMb  dMP dMP dMMMMMP dMMMMb " -ForegroundColor Yellow  
+    Write-Host "   dMP VMP dMP""dMP dMP     dMP            dMP dMP dMP amr dMP dMP dMP"" VP dMP     dMP.dMP dMP dMP dMP     dMP.dMP " -ForegroundColor Yellow  
+    Write-Host "  dMP dMP dMMMMMP dMP     dMMMP          dMP dMP dMP dMP dMP dMP  VMMMb  dMMMP   dMMMMK"" dMP dMP dMMMP   dMMMMK""  " -ForegroundColor Yellow  
+    Write-Host " dMP.aMP dMP dMP dMP     dMP            dMP.dMP.dMP dMP dMP dMP dP .dMP dMP     dMP""AMF  YMvAP"" dMP     dMP""AMF   " -ForegroundColor Yellow  
+    Write-Host " dMMMMP"" dMP dMP dMMMMMP dMMMMMP         VMMMPVMMP"" dMP dMP dMP  VMMMP"" dMMMMMP dMP dMP    VP""  dMMMMMP dMP dMP " -ForegroundColor Yellow  
     write_reverse_banner_red $cool_info;
     write_banner_blue $Menu;
     Write-Host ''

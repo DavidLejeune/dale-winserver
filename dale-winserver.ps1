@@ -187,12 +187,15 @@ function write_reverse_banner_darkgreen($entry){
 
 function adsync(){
     write_banner_action "Importing ADSync module";
+    Start-Sleep 1;
     Import-Module ADSync
     if (Get-Module -ListAvailable -Name "ADSync") {
         $Menu10 = "AD Sync"
         write_info "Showing scheduled ADSync";
+        Start-Sleep 1;
         Get-ADSyncScheduler
         write_action "Starting ADSync";
+        Start-Sleep 1;
         adsync_choice;
     } 
     else {
@@ -298,13 +301,13 @@ function ask_menu(){
         # AD MENU -----------------------------------------------------------------------------------
         "1"
         {
-            Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
             $Menu       = $Menu1;
             show_ad_menu;
         }
             "10"
             {
-                Write-Host "`nYou have selected $(($Menu10).ToUpper())`n" -ForegroundColor DarkGreen;
+                #Write-Host "`nYou have selected $(($Menu10).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $Menu10;
                 show_header;
                 adsync;
@@ -315,7 +318,6 @@ function ask_menu(){
             "q"
             {
                 write_banner_info "You have selected $MenuQ" ;
-                #Write-Host "`nYou have selected $(($MenuQ).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $MenuQ;
                 exit;
                 exit;
@@ -324,14 +326,14 @@ function ask_menu(){
 
             "99"
             {
-                Write-Host "`nYou have selected $(($Menu99).ToUpper())`n" -ForegroundColor DarkGreen;
+                #Write-Host "`nYou have selected $(($Menu99).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $Menu99;
                 show_description;
             }
 
             "69"
             {
-                Write-Host "`nYou have selected $(($Menu69).ToUpper())`n" -ForegroundColor DarkGreen;
+                #Write-Host "`nYou have selected $(($Menu69).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       =  $Menu0;
                 show_main_menu;
             }

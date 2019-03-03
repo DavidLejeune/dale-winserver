@@ -48,40 +48,47 @@ $Host.PrivateData.ProgressBackgroundColor = $bckgrnd
 #------------------------------------------------------------------------------
 #Script Variables
 #------------------------------------------------------------------------------
-$CurrentPath = (Get-Item -Path ".\").FullName;
-$ParentPath = $CurrentPath.Replace("\dale-server", "");
 
-# Standard menu
-$Menu="WINDOWS SERVER MANAGEMENT"
-$Menu0 = "Main Menu"
-$Menu69="Return to main menu"
-$MenuQ = "Quit"
-$Menu99 = "Show description"
+    $CurrentPath = (Get-Item -Path ".\").FullName;
+    $ParentPath = $CurrentPath.Replace("\dale-server", "");
+    
+    # Standard menu
+    $Menu="WINDOWS SERVER MANAGEMENT"
+    $Menu0 = "Main Menu"
+    $Menu69="Return to main menu"
+    $MenuQ = "Quit"
+    $Menu99 = "Show description"
+    
+    $Menu666="Full Install";
+    
+    # AD
+    $Menu1 = "Active Directory"
+        $Menu10 = "AD Sync"
+        $Menu10a = $Menu10
+    
+    
+    # Windows Server
+    $Menu2="Windows Server"
+    
+        $Menu20="Server Roles"
+            $Menu200="List installed Server Roles"
+            $Menu201="Search Server Roles"
+            $Menu202="Add Server Role"
+            $Menu203="Remove Server Role"
+    
+        $Menu21="Server Variables"
+            $Menu210="Computer Name"
+                $computer=$env:computername
+                $Menu210=$Menu210 + '  > ' + $computer;
+            $Menu211="Workgroup Name"
+                $workgroupname=(Get-WmiObject -Class Win32_ComputerSystem).Workgroup
+                $Menu211=$Menu211 + ' > ' + $workgroupname;
+    
+    $Menu3="Network"
+            $Menu30="Network interfaces"
+                $Menu300="Show active Interfaces";
+                $Menu301="Show all Interfaces";
 
-$Menu666="Full Install";
-
-# AD
-$Menu1 = "Active Directory"
-    $Menu10 = "AD Sync"
-    $Menu10a = $Menu10
-
-
-# Windows Server
-$Menu2="Windows Server"
-
-    $Menu20="Server Roles"
-        $Menu200="List installed Server Roles"
-        $Menu201="Search Server Roles"
-        $Menu202="Add Server Role"
-        $Menu203="Remove Server Role"
-
-    $Menu21="Server Variables"
-        $Menu210="Computer Name"
-            $computer=$env:computername
-            $Menu210=$Menu210 + '  > ' + $computer;
-        $Menu211="Workgroup Name"
-            $workgroupname=(Get-WmiObject -Class Win32_ComputerSystem).Workgroup
-            $Menu211=$Menu211 + ' > ' + $workgroupname;
 
 
 #------------------------------------------------------------------------------
@@ -447,70 +454,103 @@ function ask_menu(){
             $Menu       = $Menu2;
             show_winserver_menu;
         }
-        "20"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu20;
-            show_serverroles_menu;
-        }
-        "200"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu200;
-            show_header;
-            list_installed_server_roles;
-            pause
-            show_serverroles_menu;
-        }
-        "201"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu201;
-            show_header;
-            search_server_roles;
-            pause
-            show_serverroles_menu;
-        }
-        "202"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu202;
-            show_header;
-            write_banner_info "Please search for a role first"
-            search_server_roles;
-            add_server_roles;
-        }
-        "203"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu203;
-            show_header;
-            list_installed_server_roles;
-            remove_server_role;
-        }
+            "20"
+            {
+                #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                $Menu       = $Menu20;
+                show_serverroles_menu;
+            }
+                "200"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu200;
+                    show_header;
+                    list_installed_server_roles;
+                    pause
+                    show_serverroles_menu;
+                }
+                "201"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu201;
+                    show_header;
+                    search_server_roles;
+                    pause
+                    show_serverroles_menu;
+                }
+                "202"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu202;
+                    show_header;
+                    write_banner_info "Please search for a role first"
+                    search_server_roles;
+                    add_server_roles;
+                }
+                "203"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu203;
+                    show_header;
+                    list_installed_server_roles;
+                    remove_server_role;
+                }
 
-        "21"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu21;
-            show_servervariables_menu;
-        }
-        "210"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu210;
-            show_header;
-            computer_name;
-            show_servervariables_menu;
-        }
-        "211"
-        {
-            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
-            $Menu       = $Menu211;
-            show_header;
-            get_workgroup;
-            show_servervariables_menu;
-        }
+            "21"
+            {
+                #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                $Menu       = $Menu21;
+                show_servervariables_menu;
+            }
+                "210"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu210;
+                    show_header;
+                    computer_name;
+                    show_servervariables_menu;
+                }
+                "211"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu211;
+                    show_header;
+                    get_workgroup;
+                    show_servervariables_menu;
+                }
+
+            "3"
+            {
+                #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                $Menu       = $Menu3;
+                show_network_menu;
+            }
+                "30"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu30;
+                    show_networkinterfaces_menu;
+                }
+                    "300"
+                    {
+                        #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                        $Menu       = $Menu300;
+                        show_header;
+                        list_connected_interfaces;
+                        pause;
+                        show_networkinterfaces_menu;
+
+                    }
+                    "301"
+                    {
+                        #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                        $Menu       = $Menu301;
+                        show_header;
+                        list_all_interfaces;
+                        pause;
+                        show_networkinterfaces_menu;
+
+                    }
 
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
@@ -591,6 +631,17 @@ function show_main_menu(){
     main_menu;
 }
 
+function show_network_menu(){
+    show_header;
+    network_menu;
+
+}
+function show_networkinterfaces_menu(){
+    show_header;
+    networkinterfaces_menu;
+
+}
+
 function main_menu(){
     
     Write-Host " Menu :" -ForegroundColor Magenta;
@@ -646,7 +697,6 @@ function ad_menu(){
 
     standard_options;
 }
-
 function winserver_menu(){
     
     Write-Host " Menu :" -ForegroundColor Magenta;
@@ -684,6 +734,64 @@ function servervariables_menu(){
 
     standard_options;
 }
+
+
+
+function network_menu(){
+    
+    Write-Host " Menu :" -ForegroundColor Magenta;
+    Write-Host " " ;
+
+    Write-Host '    30.   '$Menu30  -ForegroundColor Gray;
+    Write-Host '    31.   '$Menu31  -ForegroundColor Gray;
+    Write-Host '    32.   '$Menu32  -ForegroundColor Gray;
+    Write-Host '    33.   '$Menu33  -ForegroundColor Gray;
+    Write-Host '    34.   '$Menu34  -ForegroundColor Gray;
+    Write-Host '    35.   '$Menu35  -ForegroundColor Gray;
+    Write-Host '    36.   '$Menu36  -ForegroundColor Gray;
+    Write-Host '    37.   '$Menu37  -ForegroundColor Gray;
+    Write-Host '    38.   '$Menu38  -ForegroundColor Gray;
+    Write-Host '    39.   '$Menu39  -ForegroundColor Gray;
+
+    standard_options;
+}
+
+function networkinterfaces_menu(){
+    
+    Write-Host " Menu :" -ForegroundColor Magenta;
+    Write-Host " " ;
+
+    Write-Host '    300.   '$Menu300  -ForegroundColor Gray;
+    Write-Host '    301.   '$Menu301  -ForegroundColor Gray;
+    Write-Host '    '#212.   '$Menu212  -ForegroundColor Gray;
+    Write-Host '    '#213.   '$Menu213  -ForegroundColor Gray;
+    Write-Host '    '#214.   '$Menu214  -ForegroundColor Gray;
+    Write-Host '    '#215.   '$Menu215  -ForegroundColor Gray;
+    Write-Host '    '#216.   '$Menu216  -ForegroundColor Gray;
+    Write-Host '    '#217.   '$Menu217  -ForegroundColor Gray;
+    Write-Host '    '#218.   '$Menu218  -ForegroundColor Gray;
+    Write-Host '    '#219.   '$Menu219  -ForegroundColor Gray;
+
+    standard_options;
+}
+
+function list_connected_interfaces(){
+    $Host.UI.RawUI.ForegroundColor = 'Yellow'
+    write_banner_action "Showing connected interfaces";
+    $ConnectedInterfaces=(Get-WmiObject win32_networkadapter -filter "netconnectionstatus = 2" | select NetconnectionId, Name, InterfaceIndex, netconnectionstatus);
+    $ConnectedInterfaces | Format-List InterfaceIndex , NetconnectionId , Name
+    $Host.UI.RawUI.ForegroundColor = 'White'
+}
+
+function list_all_interfaces(){
+    $Host.UI.RawUI.ForegroundColor = 'Yellow'
+    write_banner_action "Showing all interfaces";
+    $ConnectedInterfaces=(Get-WmiObject win32_networkadapter  | select NetconnectionId, Name, InterfaceIndex, netconnectionstatus);
+    $ConnectedInterfaces | Format-Table InterfaceIndex , NetconnectionId , Name
+    $Host.UI.RawUI.ForegroundColor = 'White'
+}
+
+
 
 function show_serverroles_menu(){
     show_header;
@@ -1018,7 +1126,7 @@ function ProcessingAnimation($scriptBlock) {
 #Start Script
 #------------------------------------------------------------------------------
 show_headerintro;
-ProcessingAnimation { Start-Sleep 1 }
+ProcessingAnimation { Start-Sleep 0 }
 
 show_main_menu;
 pause

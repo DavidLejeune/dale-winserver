@@ -67,24 +67,6 @@ $Menu10a = $Menu10
 #------------------------------------------------------------------------------
 #Functions
 #------------------------------------------------------------------------------
-function show_headerintro(){
-
-    Clear-Host
-    $dt = Get-Date
-    write_reverse_banner_darkgreen "$dt";
-    Write-Host '      ____              __        ' -ForegroundColor Yellow
-    Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
-    Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
-    Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
-    Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
-    Write-Host '';
-    write_banner_blue "WinServer CLI";
-    write_banner_white '>> Author : David Lejeune' 
-    write_banner_white ">> Created : 02-03-2019"
-    write_banner_red $Menu;
-    Write-Host ''
-
-}
 
 function show_header_old(){
     Clear-Host
@@ -103,11 +85,40 @@ function show_header_old(){
     Write-Host ' #####################################' -ForegroundColor DarkGreen
     Write-Host ''
 }
+function show_headerintro(){
 
-function show_header(){
     Clear-Host
     $dt = Get-Date
-    write_reverse_banner_darkgreen "$dt";
+    $user_name=$env:UserName
+    $user_domain=$env:UserDomain
+    $computer_name=$env:ComputerName
+    $cool_info= "[DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
+    write_reverse_banner_red $cool_info;
+    write_reverse_banner_blue "$dt";
+    Write-Host '      ____              __        ' -ForegroundColor Yellow
+    Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
+    Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
+    Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
+    Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
+    Write-Host '';
+    write_banner_blue "WinServer CLI";
+    write_banner_white '>> Author : David Lejeune' 
+    write_banner_white ">> Created : 02-03-2019"
+    write_banner_red $Menu;
+    Write-Host ''
+
+}
+
+function show_header(){
+
+    Clear-Host
+    $dt = Get-Date
+    $user_name=$env:UserName
+    $user_domain=$env:UserDomain
+    $computer_name=$env:ComputerName
+    $cool_info= "[DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
+    write_reverse_banner_red $cool_info;
+    write_reverse_banner_blue "$dt";
     Write-Host '      ____              __        ' -ForegroundColor Yellow
     Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
@@ -515,8 +526,6 @@ function ProcessingAnimation($scriptBlock) {
 #Start Script
 #------------------------------------------------------------------------------
 show_headerintro;
-
-# Example:
 ProcessingAnimation { Start-Sleep 1 }
 
 show_main_menu;

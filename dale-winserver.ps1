@@ -1,6 +1,7 @@
 # Description
 # -----------
 function show_description(){
+    show_header;
     #feeding the narcistic beast
     Write-Host "# Description" -ForegroundColor white
     Write-Host "# -----------" -ForegroundColor white
@@ -9,6 +10,7 @@ function show_description(){
     Write-Host "# Author : David Lejeune" -ForegroundColor magenta
     Write-Host "# Created : 02-03-2019" -ForegroundColor magenta
     Write-Host ""
+    standard_options;
 
 }
 #------------------------------------------------------------------------------
@@ -68,24 +70,20 @@ $Menu10a = $Menu10
 function show_headerintro(){
 
     Clear-Host
+    $dt = Get-Date
+    write_reverse_banner_darkgreen "$dt";
     Write-Host '      ____              __        ' -ForegroundColor Yellow
     Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
     Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
     Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
-    Write-Host '' -ForegroundColor Yellow
+    Write-Host '';
+    write_banner_blue "WinServer CLI";
+    write_banner_white '>> Author : David Lejeune' 
+    write_banner_white ">> Created : 02-03-2019"
+    write_banner_red $Menu;
     Write-Host ''
-    Write-Host '    +-+-+-+-+-+ +-+-+-+-+-+-+-+' -ForegroundColor Blue
-    Write-Host '    |W|i|n|S|e|r|v|e|r| |C|L|I|' -ForegroundColor Blue
-    Write-Host '    +-+-+-+-+-+ +-+-+-+-+-+-+-+' -ForegroundColor Blue
-    Write-Host ''
-    Write-Host '  >> Author : David Lejeune' -ForegroundColor Red
-    Write-Host "  >> Created : 02-03-2019" -ForegroundColor Red
-    Write-Host ''
-    Write-Host ' #####################################'  -ForegroundColor DarkGreen
-    Write-Host "        $($Menu)             " -ForegroundColor DarkGreen
-    Write-Host ' #####################################' -ForegroundColor DarkGreen
-    Write-Host ''
+
 }
 
 function show_header_old(){
@@ -188,7 +186,7 @@ function write_reverse_banner_darkgreen($entry){
 
 
 function adsync(){
-    write_action "Importing ADSync module";
+    write_banner_action "Importing ADSync module";
     Import-Module ADSync
     if (Get-Module -ListAvailable -Name "ADSync") {
         $Menu10 = "AD Sync"
@@ -199,7 +197,7 @@ function adsync(){
     } 
     else {
         $Menu10 = "AD Sync [Module not present]"
-        write_warning "Module ADSync does not exist"
+        write_banner_red "Module ADSync does not exist"
         #Start-Sleep 3;
         pause;
         show_ad_menu;
@@ -255,15 +253,33 @@ function adsync_choice(){
 
 }
 
+function write_banner_info($msg){
+    write_banner_blue $msg;
+}
+
+function write_banner_warning($msg){
+    write_banner_red $msg;
+}
+
+function write_banner_action($msg){
+    write_banner_darkgreen $msg;
+}
+
+function write_banner_regular($msg){
+    write_banner_white $msg;
+
+}
+
+
 function full_adsync(){
-    write_info "Starting Full ADSync";
+    write_banner_info "Starting Full ADSync";
     initial_adsync;
     Start-Sleep 60 ; 
     delta_async;
 }
 
 function initial_adsync(){
-    write_info "Inital ADSync";
+    write_banner_info "Inital ADSync";
     Start-ADSyncSyncCycle -PolicyType Initial ;
 }
 
@@ -275,7 +291,6 @@ function delta_adsync(){
 # Menus
 function ask_menu(){
         
-    #Select action
     $Menu = Read-Host -Prompt 'Select an option ';
     switch ($Menu)
         {
@@ -310,9 +325,7 @@ function ask_menu(){
             {
                 Write-Host "`nYou have selected $(($Menu99).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $Menu99;
-                show_header;
                 show_description;
-                ask_menu;
             }
 
             69
@@ -465,13 +478,43 @@ function check_ok(){
     
 }
 
-
+function ProcessingAnimation($scriptBlock) {
+    $cursorTop = [Console]::CursorTop
+    
+    try {
+        [Console]::CursorVisible = $false
+        
+        $counter = 0
+        $frames = '  LOADING |', '  LOADING /', '  LOADING -', '  LOADING \' 
+        $jobName = Start-Job -ScriptBlock $scriptBlock
+    
+        while($jobName.JobStateInfo.State -eq "Running") {
+            $frame = $frames[$counter % $frames.Length]
+            
+            
+            Write-Host "$frame" -NoNewLine
+            [Console]::SetCursorPosition(0, $cursorTop)
+            
+            $counter += 1
+            Start-Sleep -Milliseconds 125
+        }
+        
+        # Only needed if you use a multiline frames
+        Write-Host ($frames[0] -replace '[^\s+]', ' ')
+    }
+    finally {
+        [Console]::SetCursorPosition(0, $cursorTop)
+        [Console]::CursorVisible = $true
+    }
+}
 
 #------------------------------------------------------------------------------
 #Start Script
 #------------------------------------------------------------------------------
-#show_headerintro;
-#show_description;
-#Start-Sleep 1 ;
+show_headerintro;
+
+# Example:
+ProcessingAnimation { Start-Sleep 1 }
+
 show_main_menu;
 pause

@@ -92,6 +92,7 @@ $Host.PrivateData.ProgressBackgroundColor = $bckgrnd
 
     $Menu4="Windows Updates"
         $Menu40="List installed Windows Updates"
+        $Menu41="List available Windows Updates"
 
 
 #------------------------------------------------------------------------------
@@ -601,9 +602,31 @@ function ask_menu(){
                 {
                     #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
                     $Menu       = $Menu40;
-                    
-                        }
+                    show_header;
+                    $Host.UI.RawUI.ForegroundColor = 'Yellow'
+                    list_installed_updates;
+                    $Host.UI.RawUI.ForegroundColor = 'white'
+                    write-host '';
+                    pause;
+                    show_updates_menu;
 
+                    
+                }
+
+                "41"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu41;
+                    show_header;
+                    $Host.UI.RawUI.ForegroundColor = 'Yellow'
+                    list_available_updates;
+                    $Host.UI.RawUI.ForegroundColor = 'white'
+                    write-host '';
+                    pause;
+                    show_updates_menu;
+
+                    
+                }
 
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
@@ -648,12 +671,23 @@ function ask_menu(){
 
 }
 
+function list_installed_updates(){
+    get-hotfix | Format-Table ;
+
+}
+
+function list_available_updates(){
+    get-wulist
+   }
+
 function full_install(){
     
     show_header;
     computer_name;
     
     get_workgroup;
+
+
 
     $Menu="Full Install Completed"
     show_header;

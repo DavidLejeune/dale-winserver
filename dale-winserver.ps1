@@ -98,15 +98,14 @@ function show_headerintro(){
     $computer_name=$env:ComputerName
     $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
     $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
-    write_reverse_banner_red $cool_info;
-    write_reverse_banner_blue "$dt";
+    write_reverse_banner_red "$dt";
+    write_reverse_banner_blue "WinServer CLI";
     Write-Host '      ____              __        ' -ForegroundColor Yellow
     Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
     Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
     Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
-    Write-Host '';
-    write_banner_blue "WinServer CLI";
+    write_banner_blue $cool_info;
     write_banner_white '>> Author : David Lejeune' 
     write_banner_white ">> Created : 02-03-2019"
     write_banner_red $Menu;
@@ -123,16 +122,16 @@ function show_header(){
     $computer_name=$env:ComputerName
     $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
     $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
-    write_reverse_banner_blue $cool_info;
-    write_reverse_banner_white "$dt";
+    write_reverse_banner_blue "$dt";
+    write_reverse_banner_red "WinServer CLI";
     Write-Host '      ____              __        ' -ForegroundColor Yellow
     Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
     Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
     Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
     Write-Host '';
-    write_banner_blue "WinServer CLI";
-    write_banner_red $Menu;
+    write_reverse_banner_red $cool_info;
+    write_banner_blue $Menu;
     Write-Host ''
 }
 
@@ -146,7 +145,7 @@ function write_banner_white($entry){
 
 function write_reverse_banner_white($entry){
     $filler="";
-    For ($i=3; $i -le 116 - $entry.length; $i++) {
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
         $filler=' ' + $filler;
         }
     Write-Host '' $filler '' $entry '' -BackgroundColor white -ForegroundColor Black;

@@ -83,12 +83,15 @@ $Host.PrivateData.ProgressBackgroundColor = $bckgrnd
             $Menu211="Workgroup Name"
                 $workgroupname=(Get-WmiObject -Class Win32_ComputerSystem).Workgroup
                 $Menu211=$Menu211 + ' > ' + $workgroupname;
+            $Menu212="System Info"
     
     $Menu3="Network"
-            $Menu30="Network interfaces"
-                $Menu300="Show active Interfaces";
-                $Menu301="Show all Interfaces";
+        $Menu30="Network interfaces"
+            $Menu300="Show active Interfaces";
+            $Menu301="Show all Interfaces";
 
+    $Menu4="Windows Updates"
+        $Menu40="List installed Windows Updates"
 
 
 #------------------------------------------------------------------------------
@@ -312,6 +315,28 @@ function write_reverse_banner_darkgreen($entry){
 }
 
 
+function import_pswindowsupdate_module(){
+    write_banner_action "Installing PSWindowsUpdate module";
+    Start-Sleep 1;
+    ProcessingAnimation { Install-Module PSWindowsUpdate };
+    if (Get-Module -ListAvailable -Name "PSWindowsUpdate") {
+        $Menu40 = "PSWindowsUpdate"
+        write_banner_white "PSWindowsUpdate installed ";
+        Start-Sleep 1;
+         } 
+    else {
+        $Menu40 = $Menu40 + " [Module not present]";
+        write_banner_red "Module PSWindowsUpdate could not be installed"
+        #Start-Sleep 3;
+        pause;
+        show_updates_menu;
+    }
+}
+
+function get_uptime(){
+    $os = Get-WmiObject win32_operatingsystem; $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime)); 
+    Write-Host "Uptime: " $Uptime.Days " days, " $Uptime.Hours " hours, " + $Uptime.Minutes + " minutes"
+}
 
 function adsync(){
     write_banner_action "Importing ADSync module";
@@ -518,6 +543,15 @@ function ask_menu(){
                     get_workgroup;
                     show_servervariables_menu;
                 }
+                "212"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu212;
+                    show_header;
+                    systeminfo;
+                    pause;
+                    show_servervariables_menu;
+                }
 
             "3"
             {
@@ -553,6 +587,23 @@ function ask_menu(){
                         show_networkinterfaces_menu;
 
                     }
+
+
+            "4"
+            {
+                #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                $Menu       = $Menu4;
+                show_header;
+                import_pswindowsupdate_module;
+                show_updates_menu;
+            }
+                "40"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu40;
+                    
+                        }
+
 
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
@@ -644,6 +695,11 @@ function show_networkinterfaces_menu(){
 
 }
 
+function show_updates_menu(){
+    show_header;
+    updates_menu;
+
+}
 function main_menu(){
     
     Write-Host " Menu :" -ForegroundColor Magenta;
@@ -725,7 +781,7 @@ function servervariables_menu(){
 
     Write-Host '    210.   '$Menu210  -ForegroundColor Gray;
     Write-Host '    211.   '$Menu211  -ForegroundColor Gray;
-    Write-Host '    '#212.   '$Menu212  -ForegroundColor Gray;
+    Write-Host '    212.   '$Menu212  -ForegroundColor Gray;
     Write-Host '    '#213.   '$Menu213  -ForegroundColor Gray;
     Write-Host '    '#214.   '$Menu214  -ForegroundColor Gray;
     Write-Host '    '#215.   '$Menu215  -ForegroundColor Gray;
@@ -776,6 +832,28 @@ function networkinterfaces_menu(){
 
     standard_options;
 }
+
+
+function updates_menu(){
+    
+    Write-Host " Menu :" -ForegroundColor Magenta;
+    Write-Host " " ;
+
+    Write-Host '    40.   '$Menu40  -ForegroundColor Gray;
+    Write-Host '    41.   '$Menu41  -ForegroundColor Gray;
+    Write-Host '    42.   '$Menu42  -ForegroundColor Gray;
+    Write-Host '    43.   '$Menu43  -ForegroundColor Gray;
+    Write-Host '    44.   '$Menu44  -ForegroundColor Gray;
+    Write-Host '    45.   '$Menu45  -ForegroundColor Gray;
+    Write-Host '    46.   '$Menu46  -ForegroundColor Gray;
+    Write-Host '    47.   '$Menu47  -ForegroundColor Gray;
+    Write-Host '    48.   '$Menu48  -ForegroundColor Gray;
+    Write-Host '    49.   '$Menu49  -ForegroundColor Gray;
+
+    standard_options;
+}
+
+
 
 function list_connected_interfaces(){
     $Host.UI.RawUI.ForegroundColor = 'Yellow'
@@ -1101,7 +1179,7 @@ function ProcessingAnimation($scriptBlock) {
         [Console]::CursorVisible = $false
         
         $counter = 0
-        $frames = '  LOADING |', '  LOADING /', '  LOADING -', '  LOADING \' 
+        $frames = '  PROCESSING |', '  PROCESSING /', '  PROCESSING -', '  PROCESSING \' 
         $jobName = Start-Job -ScriptBlock $scriptBlock
     
         while($jobName.JobStateInfo.State -eq "Running") {

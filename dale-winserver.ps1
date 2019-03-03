@@ -66,6 +66,11 @@ $Menu10a = $Menu10
 
 # Windows Server
 $Menu2="Windows Server"
+$Menu20="Server Roles"
+$Menu200="List installed Server Roles"
+$Menu201="Search Server Roles"
+$Menu202="Add Server Role"
+$Menu203="Remove Server Role"
 
 #------------------------------------------------------------------------------
 #Functions
@@ -97,9 +102,10 @@ function show_headerintro(){
     $user_domain=$env:UserDomain
     $computer_name=$env:ComputerName
     $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
-    $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
+    $cool_info= "[DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
     write_reverse_banner_darkblue "$dt";
-    write_reverse_banner_red "WinServer CLI";
+    #write_reverse_banner_red "WinServer CLI";
+    write_reverse_banner_red "$os";
     write_banner_darkblue "...%%%%%....%%%%...%%......%%%%%%.........%%...%%..%%%%%%..%%..%%...%%%%...%%%%%%..%%%%%...%%..%%..%%%%%%..%%%%%..."
     write_banner_darkblue "...%%..%%..%%..%%..%%......%%.............%%...%%....%%....%%%.%%..%%......%%......%%..%%..%%..%%..%%......%%..%%.."
     write_banner_darkblue "...%%..%%..%%%%%%..%%......%%%%...........%%.%.%%....%%....%%.%%%...%%%%...%%%%....%%%%%...%%..%%..%%%%....%%%%%..."
@@ -122,9 +128,10 @@ function show_header(){
     $user_domain=$env:UserDomain
     $computer_name=$env:ComputerName
     $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
-    $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
+    $cool_info= "[DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
     write_reverse_banner_darkblue "$dt";
-    write_reverse_banner_red "WinServer CLI";
+    #write_reverse_banner_red "WinServer CLI";
+    write_reverse_banner_red "$os";
     write_banner_darkblue "...%%%%%....%%%%...%%......%%%%%%.........%%...%%..%%%%%%..%%..%%...%%%%...%%%%%%..%%%%%...%%..%%..%%%%%%..%%%%%..."
     write_banner_darkblue "...%%..%%..%%..%%..%%......%%.............%%...%%....%%....%%%.%%..%%......%%......%%..%%..%%..%%..%%......%%..%%.."
     write_banner_darkblue "...%%..%%..%%%%%%..%%......%%%%...........%%.%.%%....%%....%%.%%%...%%%%...%%%%....%%%%%...%%..%%..%%%%....%%%%%..."
@@ -385,11 +392,13 @@ function full_adsync(){
 
 function initial_adsync(){
     write_banner_info "Inital ADSync";
+    $Host.UI.RawUI.ForegroundColor = 'Yellow'
     Start-ADSyncSyncCycle -PolicyType Initial ;
 }
 
 function delta_adsync(){
     write_info "Delta ADSync";
+    $Host.UI.RawUI.ForegroundColor = 'Yellow'
     Start-ADSyncSyncCycle -PolicyType Delta;
 }
 
@@ -425,6 +434,47 @@ function ask_menu(){
             #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
             $Menu       = $Menu2;
             show_winserver_menu;
+        }
+        "20"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu20;
+            show_serverroles_menu;
+        }
+        "200"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu200;
+            show_header;
+            list_installed_server_roles;
+            pause
+            show_serverroles_menu;
+        }
+        "201"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu201;
+            show_header;
+            search_server_roles;
+            pause
+            show_serverroles_menu;
+        }
+        "202"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu202;
+            show_header;
+            write_banner_info "Please search for a role first"
+            search_server_roles;
+            add_server_roles;
+        }
+        "203"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu203;
+            show_header;
+            list_installed_server_roles;
+            remove_server_role;
         }
 
 
@@ -472,6 +522,10 @@ function show_ad_menu(){
 function show_winserver_menu(){
     show_header;
     winserver_menu;
+}
+function show_serverroles_menu(){
+    show_header;
+    serverroles_menu;
 }
 
 function show_main_menu(){
@@ -551,6 +605,130 @@ function winserver_menu(){
 
     standard_options;
 }
+
+
+function show_serverroles_menu(){
+    show_header;
+    serverroles_menu;
+}
+function serverroles_menu(){
+    
+    Write-Host " Menu :" -ForegroundColor Magenta;
+    Write-Host " " ;
+
+    Write-Host '    200.   '$Menu200  -ForegroundColor Gray;
+    Write-Host '    201.   '$Menu201  -ForegroundColor Gray;
+    Write-Host '    202.   '$Menu202  -ForegroundColor Gray;
+    Write-Host '    203.   '$Menu203  -ForegroundColor Gray;
+    Write-Host '    '#24.   '$Menu24  -ForegroundColor Gray;
+    Write-Host '    '#25.   '$Menu25  -ForegroundColor Gray;
+    Write-Host '    '#26.   '$Menu26  -ForegroundColor Gray;
+    Write-Host '    '#27.   '$Menu27  -ForegroundColor Gray;
+    Write-Host '    '#28.   '$Menu28  -ForegroundColor Gray;
+    Write-Host '    '#29.   '$Menu29  -ForegroundColor Gray;
+
+    standard_options;
+}
+
+
+function list_installed_server_roles(){
+    Get-WindowsFeature | where {$_.installed -eq $true} 
+}
+function search_server_roles(){
+    write_banner_action "Getting server roles"
+    write_action "Type the name of the server role you want to search."
+    write_action "If left empty it will return all server roles."
+    write_action "Type [q] to quit."
+    $Host.UI.RawUI.ForegroundColor = 'white'
+    $Continue = Read-Host -Prompt 'Search for Server Role(s) ';
+    switch ($Continue)
+    {
+        ""
+            {
+                $SearchValue = "*" ;
+                list_server_roles $SearchValue;
+            }
+
+        q
+            {
+                write_action "You chose to quit."
+                Write-Host ""
+                $Menu=$Menu20
+                show_header;
+                show_serverroles_menu;
+                exit
+            }
+
+        default
+            {
+                $SearchValue = '*'+$Continue+'*' ;
+                list_server_roles $SearchValue;
+            }
+    }
+}
+
+function list_server_roles($search){
+    Get-WindowsFeature $search;
+}
+
+function add_server_roles(){
+    write_banner_action "Adding server role"
+    write_action "Type the name of the server role you want to add."
+    write_action "If left empty it will not add a server role."
+    $Host.UI.RawUI.ForegroundColor = 'White'
+    $Continue = Read-Host -Prompt 'Add Server Role ';
+    switch ($Continue)
+    {
+        ""
+            {
+                write_banner_warning "You didn't select a Server Role";
+                pause
+                show_serverroles_menu;
+            }
+
+        default
+            {
+                $ServerRole = '*'+$Continue+'*' ;
+                write_banner_warning "This will restart the Server if neccessary.";
+                Start-Sleep 2;
+                            
+                Install-WindowsFeature -Name $ServerRole -restart;
+                $Host.UI.RawUI.ForegroundColor = 'White'
+            }
+    }
+}
+
+
+function remove_server_role(){
+    write_banner_action "Removing server role"
+    write_action "Type the name of the server role you want to remove."
+    write_action "If left empty it will not remove a server role."
+    $Host.UI.RawUI.ForegroundColor = 'White'
+    $Continue = Read-Host -Prompt 'Add Server Role ';
+    switch ($Continue)
+    {
+        ""
+            {
+                write_banner_warning "You didn't select a Server Role";
+                pause
+                show_serverroles_menu;
+            }
+
+        default
+            {
+                $ServerRole = '*'+$Continue+'*' ;
+                write_banner_warning "This will remove the Server Role and restart the Server if neccessary.";
+                             
+                UnInstall-WindowsFeature -Name $ServerRole -restart;
+                $Host.UI.RawUI.ForegroundColor = 'White'
+            }
+    }
+}
+
+
+
+
+
 function write_warning($msg)
 {
     Write-Host "$($msg)" -BackgroundColor Red -ForegroundColor White;

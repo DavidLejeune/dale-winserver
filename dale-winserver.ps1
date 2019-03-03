@@ -87,17 +87,18 @@ function show_headerintro(){
     Write-Host ' #####################################' -ForegroundColor DarkGreen
     Write-Host ''
 }
-function show_header(){
+
+function show_header_old(){
     Clear-Host
     Write-Host '      ____              __        ' -ForegroundColor Yellow
     Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
     Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
     Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
-    Write-Host '' -ForegroundColor Yellow
+    Write-Host '';
     Write-Host '    +-+-+-+-+-+ +-+-+-+-+-+-+-+' -ForegroundColor Blue
     Write-Host '    |W|i|n|S|e|r|v|e|r| |C|L|I|' -ForegroundColor Blue
-    Write-Host '    +-+-+-+-+-+ +-+-+-+-+-+-+-+' -ForegroundColor Blue
+    Write-Host '    +-+-+-+-+-+ +-+-+-+-+-+-+-+' -ForegroundColor Blue 
     Write-Host ''
     Write-Host ' #####################################'  -ForegroundColor DarkGreen
     Write-Host "        $($Menu)             " -ForegroundColor DarkGreen
@@ -105,14 +106,95 @@ function show_header(){
     Write-Host ''
 }
 
+function show_header(){
+    Clear-Host
+    $dt = Get-Date
+    write_reverse_banner_darkgreen "$dt";
+    Write-Host '      ____              __        ' -ForegroundColor Yellow
+    Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
+    Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
+    Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
+    Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
+    Write-Host '';
+    write_banner_blue "WinServer CLI";
+    write_banner_red $Menu;
+    Write-Host ''
+}
+
+function write_banner_white($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor white -ForegroundColor Black;
+}
+
+function write_reverse_banner_white($entry){
+    $filler="";
+    For ($i=3; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor white -ForegroundColor Black;
+}
+
+function write_banner_blue($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor Blue -ForegroundColor White;
+}
+
+function write_reverse_banner_blue($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor blue -ForegroundColor White;
+}
+
+function write_banner_red($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor red -ForegroundColor White;
+}
+
+function write_reverse_banner_red($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor red -ForegroundColor White;
+}
+
+function write_banner_darkgreen($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor DarkGreen -ForegroundColor White;
+}
+
+function write_reverse_banner_darkgreen($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor DarkGreen -ForegroundColor White;
+}
+
+
+
 function adsync(){
-    write_info "Importing ADSync module";
+    write_action "Importing ADSync module";
     Import-Module ADSync
     if (Get-Module -ListAvailable -Name "ADSync") {
         $Menu10 = "AD Sync"
         write_info "Showing scheduled ADSync";
         Get-ADSyncScheduler
-        write_info "Starting ADSync";
+        write_action "Starting ADSync";
         adsync_choice;
     } 
     else {
@@ -211,7 +293,6 @@ function ask_menu(){
                 $Menu       = $Menu10;
                 show_header;
                 adsync;
-                ask_menu;
             }
 
             # -----------------------------------------------------------------------------------
@@ -243,7 +324,7 @@ function ask_menu(){
 
 
             default {
-                write_warning "The choice could not be determined.";
+                write_banner_red "The choice could not be determined.";
                 #Write-Host "The choice could not be determined." -ForegroundColor Red
             }
         }
@@ -358,7 +439,7 @@ function ask_continue(){
     }
 }
 
-function check_ok()}{
+function check_ok(){
     $Host.UI.RawUI.ForegroundColor = 'white'
     $OkNotOk = Read-Host -Prompt "Press '[ENTER]' if this is OK , else type 'q' ? ";
     # echo $OkNotOk
@@ -389,8 +470,8 @@ function check_ok()}{
 #------------------------------------------------------------------------------
 #Start Script
 #------------------------------------------------------------------------------
-show_headerintro;
-show_description;
-Start-Sleep 1 ;
+#show_headerintro;
+#show_description;
+#Start-Sleep 1 ;
 show_main_menu;
 pause

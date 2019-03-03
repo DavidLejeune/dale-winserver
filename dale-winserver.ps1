@@ -78,7 +78,7 @@ $Menu2="Windows Server"
     $Menu21="Server Variables"
         $Menu210="Computer Name"
             $computer=$env:computername
-            $Menu210=$Menu210 + ' > ' + $computer;
+            $Menu210=$Menu210 + '  > ' + $computer;
         $Menu211="Workgroup Name"
             $workgroupname=(Get-WmiObject -Class Win32_ComputerSystem).Workgroup
             $Menu211=$Menu211 + ' > ' + $workgroupname;
@@ -530,7 +530,7 @@ function ask_menu(){
                 show_description;
             }
 
-            "66"
+            "666"
             {
                 #Write-Host "`nYou have selected $(($Menu69).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       =  $Menu66;
@@ -555,7 +555,15 @@ function ask_menu(){
 }
 
 function full_install(){
+    
     show_header;
+    computer_name;
+    
+    get_workgroup;
+
+    $Menu="Full Install Completed"
+    show_header;
+    show_main_menu;
 
 }
 
@@ -771,8 +779,8 @@ function computer_name(){
         default
             {
                 $Menu=$Menu21
-                show_header;
-                servervariables_menu;
+                #show_header;
+                #servervariables_menu;
             }
     }
 }
@@ -799,7 +807,6 @@ function get_workgroup(){
         $str="The Workgroup Name is " + $workgroup_name;
         write_banner_info $str;
         change_workgroup_name;
-        servervariables_menu
     #}
     
 }
@@ -836,9 +843,7 @@ function change_workgroup_name(){
 
         default
             {
-                $Menu=$Menu21
-                show_header;
-                servervariables_menu;
+                $Menu=$Menu21;
             }
     }
 }

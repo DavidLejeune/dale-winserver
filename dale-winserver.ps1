@@ -538,6 +538,7 @@ function ask_menu(){
                         show_header;
                         list_connected_interfaces;
                         pause;
+                        $Menu       = $Menu30;
                         show_networkinterfaces_menu;
 
                     }
@@ -548,6 +549,7 @@ function ask_menu(){
                         show_header;
                         list_all_interfaces;
                         pause;
+                        $Menu       = $Menu30;
                         show_networkinterfaces_menu;
 
                     }
@@ -786,8 +788,8 @@ function list_connected_interfaces(){
 function list_all_interfaces(){
     $Host.UI.RawUI.ForegroundColor = 'Yellow'
     write_banner_action "Showing all interfaces";
-    $ConnectedInterfaces=(Get-WmiObject win32_networkadapter  | select NetconnectionId, Name, InterfaceIndex, netconnectionstatus);
-    $ConnectedInterfaces | Format-Table InterfaceIndex , NetconnectionId , Name
+    $ConnectedInterfaces=(Get-WmiObject win32_networkadapter  | select NetconnectionId, Name, InterfaceIndex, NetconnectionStatus);
+    $ConnectedInterfaces | Format-Table InterfaceIndex , NetconnectionId , NetconnectionStatus, Name;
     $Host.UI.RawUI.ForegroundColor = 'White'
 }
 

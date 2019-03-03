@@ -55,7 +55,7 @@ $ParentPath = $CurrentPath.Replace("\dale-server", "");
 $Menu="WINDOWS SERVER MANAGEMENT"
 $Menu0 = "Main Menu"
 $Menu69="Return to main menu"
-$Menu666 = "Quit"
+$MenuQ = "Quit"
 $Menu99 = "Show description"
 
 # AD
@@ -296,13 +296,13 @@ function ask_menu(){
         {
 
         # AD MENU -----------------------------------------------------------------------------------
-        1
+        "1"
         {
             Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
             $Menu       = $Menu1;
             show_ad_menu;
         }
-            10
+            "10"
             {
                 Write-Host "`nYou have selected $(($Menu10).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $Menu10;
@@ -312,23 +312,23 @@ function ask_menu(){
 
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
-            666
+            "q"
             {
-                Write_Host "`nYou have selected $(($Menu666).ToUpper())`n" -ForegroundColor DarkGreen;
-                $Menu       = $Menu666;
+                Write-Host "`nYou have selected $(($MenuQ).ToUpper())`n" -ForegroundColor DarkGreen;
+                $Menu       = $MenuQ;
                 exit;
                 exit;
 
             }
 
-            99
+            "99"
             {
                 Write-Host "`nYou have selected $(($Menu99).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $Menu99;
                 show_description;
             }
 
-            69
+            "69"
             {
                 Write-Host "`nYou have selected $(($Menu69).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       =  $Menu0;
@@ -377,7 +377,7 @@ function standard_options(){
     Write-Host '   ';
     Write-Host '    69.  '$Menu69 -ForegroundColor Yellow;
     Write-Host '    99.  '$Menu99 -ForegroundColor DarkGRay;
-    Write-Host '    666. '$Menu666 -ForegroundColor Red;
+    Write-Host '    [q]  '$MenuQ -ForegroundColor Red;
     Write-Host ""
     ask_menu;
 }

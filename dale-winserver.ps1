@@ -113,9 +113,9 @@ function show_headerintro(){
     write_banner_darkblue " dMMMMP"" dMP dMP dMMMMMP dMMMMMP         VMMMPVMMP"" dMP dMP dMP  VMMMP"" dMMMMMP dMP dMP    VP""  dMMMMMP dMP dMP " 
 
     write_banner_red $cool_info;
+    write_banner_darkblue $Menu;
     write_banner_white '>> Author : David Lejeune' 
     write_banner_white ">> Created : 02-03-2019"
-    write_banner_darkblue $Menu;
     Write-Host ''
 
 }
@@ -155,6 +155,20 @@ function show_header(){
     write_banner_darkblue "  dMP dMP dMMMMMP dMP     dMMMP          dMP dMP dMP dMP dMP dMP  VMMMb  dMMMP   dMMMMK"" dMP dMP dMMMP   dMMMMK""  " 
     write_banner_darkblue " dMP.aMP dMP dMP dMP     dMP            dMP.dMP.dMP dMP dMP dMP dP .dMP dMP     dMP""AMF  YMvAP"" dMP     dMP""AMF   "   
     write_banner_darkblue " dMMMMP"" dMP dMP dMMMMMP dMMMMMP         VMMMPVMMP"" dMP dMP dMP  VMMMP"" dMMMMMP dMP dMP    VP""  dMMMMMP dMP dMP " 
+
+
+    #write_banner_darkblue " ____ ____ ____ ____ _________ ____ ____ ____ ____ ____ ____ ____ ____ ____ " 
+    #write_banner_darkblue "||D |||a |||L |||e |||       |||W |||i |||n |||S |||e |||r |||v |||e |||r ||" 
+    #write_banner_darkblue "||__|||__|||__|||__|||_______|||__|||__|||__|||__|||__|||__|||__|||__|||__||" 
+    #write_banner_darkblue "|/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|/__\|/__\|/__\|/__\|/__\|" 
+    #write_banner_darkblue ""
+
+
+    #write_banner_darkblue "   ___       __         _      ___      ____                    " 
+    #write_banner_darkblue "  / _ \___ _/ /  ___   | | /| / (_)__  / __/__ _____  _____ ____" 
+    #write_banner_darkblue " / // / _ `/ /__/ -_)  | |/ |/ / / _ \_\ \/ -_) __/ |/ / -_) __/" 
+    #write_banner_darkblue "/____/\_,_/____/\__/   |__/|__/_/_//_/___/\__/_/  |___/\__/_/   " 
+
     write_reverse_banner_red $cool_info;
     write_banner_darkblue $Menu;
     Write-Host ''

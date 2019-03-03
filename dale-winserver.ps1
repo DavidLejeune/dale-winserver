@@ -27,7 +27,7 @@ $newSize.Width = 120
 $psWindow.BufferSize = $newSize
 
 $newSize = $psWindow.WindowSize
-$newSize.Height = 40
+$newSize.Height = 50
 $newSize.Width = 120
 
 $psWindow.WindowSize= $newSize
@@ -688,12 +688,13 @@ function add_server_roles(){
 
         default
             {
-                $ServerRole = '*'+$Continue+'*' ;
-                write_banner_warning "This will restart the Server if neccessary.";
+                $ServerRole = $Continue ;
+                write_banner_warning "This will install the Server Role and restart the Server if neccessary.";
                 Start-Sleep 2;
                             
                 Install-WindowsFeature -Name $ServerRole -restart;
                 $Host.UI.RawUI.ForegroundColor = 'White'
+                show_serverroles_menu;
             }
     }
 }
@@ -716,11 +717,12 @@ function remove_server_role(){
 
         default
             {
-                $ServerRole = '*'+$Continue+'*' ;
+                $ServerRole = $Continue ;
                 write_banner_warning "This will remove the Server Role and restart the Server if neccessary.";
                              
                 UnInstall-WindowsFeature -Name $ServerRole -restart;
                 $Host.UI.RawUI.ForegroundColor = 'White'
+                show_serverroles_menu;
             }
     }
 }

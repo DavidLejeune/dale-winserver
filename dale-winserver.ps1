@@ -518,6 +518,7 @@ function ask_menu(){
             {
                 write_banner_info "You have selected $MenuQ" ;
                 $Menu       = $MenuQ;
+                Start-Sleep 1;
                 exit;
                 exit;
 
@@ -603,6 +604,8 @@ function main_menu(){
     Write-Host '    7.   '$Menu7  -ForegroundColor Gray;
     Write-Host '    8.   '$Menu8  -ForegroundColor Gray;
     Write-Host '    9.   '$Menu9  -ForegroundColor Gray;
+    Write-Host ' '  -ForegroundColor Gray;
+    Write-Host '    666.   '$Menu666  -ForegroundColor Magenta;
 
     standard_options;
 }
@@ -693,7 +696,7 @@ function serverroles_menu(){
 
     Write-Host '    200.   '$Menu200  -ForegroundColor Gray;
     Write-Host '    201.   '$Menu201  -ForegroundColor Gray;
-    Write-Host '    202.    '$Menu202  -ForegroundColor Gray;
+    Write-Host '    202.   '$Menu202  -ForegroundColor Gray;
     Write-Host '    203.   '$Menu203  -ForegroundColor Gray;
     Write-Host '    '#24.   '$Menu24  -ForegroundColor Gray;
     Write-Host '    '#25.   '$Menu25  -ForegroundColor Gray;

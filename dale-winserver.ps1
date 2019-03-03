@@ -64,6 +64,9 @@ $Menu10 = "AD Sync"
 $Menu10a = $Menu10
 
 
+# Windows Server
+$Menu2="Windows Server"
+
 #------------------------------------------------------------------------------
 #Functions
 #------------------------------------------------------------------------------
@@ -85,6 +88,7 @@ function show_header_old(){
     Write-Host ' #####################################' -ForegroundColor DarkGreen
     Write-Host ''
 }
+
 function show_headerintro(){
 
     Clear-Host
@@ -92,7 +96,8 @@ function show_headerintro(){
     $user_name=$env:UserName
     $user_domain=$env:UserDomain
     $computer_name=$env:ComputerName
-    $cool_info= "[DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
+    $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
+    $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
     write_reverse_banner_red $cool_info;
     write_reverse_banner_blue "$dt";
     Write-Host '      ____              __        ' -ForegroundColor Yellow
@@ -116,9 +121,10 @@ function show_header(){
     $user_name=$env:UserName
     $user_domain=$env:UserDomain
     $computer_name=$env:ComputerName
-    $cool_info= "[DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
-    write_reverse_banner_red $cool_info;
-    write_reverse_banner_blue "$dt";
+    $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
+    $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
+    write_reverse_banner_blue $cool_info;
+    write_reverse_banner_white "$dt";
     Write-Host '      ____              __        ' -ForegroundColor Yellow
     Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
     Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
@@ -324,6 +330,20 @@ function ask_menu(){
                 adsync;
             }
 
+
+
+
+
+        # AD MENU -----------------------------------------------------------------------------------
+        "2"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu2;
+            show_winserver_menu;
+        }
+
+
+
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
             "q"
@@ -362,6 +382,11 @@ function ask_menu(){
 function show_ad_menu(){
     show_header;
     ad_menu;
+}
+
+function show_winserver_menu(){
+    show_header;
+    winserver_menu;
 }
 
 function show_main_menu(){
@@ -423,6 +448,24 @@ function ad_menu(){
     standard_options;
 }
 
+function winserver_menu(){
+    
+    Write-Host " Menu :" -ForegroundColor Magenta;
+    Write-Host " " ;
+
+    Write-Host '    20.   '$Menu20  -ForegroundColor Gray;
+    Write-Host '    21.   '$Menu21  -ForegroundColor Gray;
+    Write-Host '    22.   '$Menu22  -ForegroundColor Gray;
+    Write-Host '    23.   '$Menu23  -ForegroundColor Gray;
+    Write-Host '    24.   '$Menu24  -ForegroundColor Gray;
+    Write-Host '    25.   '$Menu25  -ForegroundColor Gray;
+    Write-Host '    26.   '$Menu26  -ForegroundColor Gray;
+    Write-Host '    27.   '$Menu27  -ForegroundColor Gray;
+    Write-Host '    28.   '$Menu28  -ForegroundColor Gray;
+    Write-Host '    29.   '$Menu29  -ForegroundColor Gray;
+
+    standard_options;
+}
 function write_warning($msg)
 {
     Write-Host "$($msg)" -BackgroundColor Red -ForegroundColor White;

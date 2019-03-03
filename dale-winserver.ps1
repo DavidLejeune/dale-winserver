@@ -98,19 +98,24 @@ function show_headerintro(){
     $computer_name=$env:ComputerName
     $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
     $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
-    write_reverse_banner_red "$dt";
-    write_reverse_banner_blue "WinServer CLI";
-    Write-Host '      ____              __        ' -ForegroundColor Yellow
-    Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
-    Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
-    Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
-    Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
+    write_reverse_banner_darkblue "$dt";
+    write_reverse_banner_red "WinServer CLI";
+    #Write-Host '      ____              __        ' -ForegroundColor Yellow
+    #Write-Host '     / __ \   ____ _   / /      ___ ' -ForegroundColor Yellow
+    #Write-Host '    / / / /  / __ `/  / /      / _ \' -ForegroundColor Yellow
+    #Write-Host '   / /_/ /  / /_/ /  / /___   /  __/' -ForegroundColor Yellow
+    #Write-Host '  /_____/   \__,_/  /_____/   \___/ ' -ForegroundColor Yellow
 
+    write_banner_darkblue "    dMMMMb  .aMMMb  dMP     dMMMMMP        dMP dMP dMP dMP dMMMMb  .dMMMb  dMMMMMP dMMMMb  dMP dMP dMMMMMP dMMMMb "  
+    write_banner_darkblue "   dMP VMP dMP""dMP dMP     dMP            dMP dMP dMP amr dMP dMP dMP"" VP dMP     dMP.dMP dMP dMP dMP     dMP.dMP " 
+    write_banner_darkblue "  dMP dMP dMMMMMP dMP     dMMMP          dMP dMP dMP dMP dMP dMP  VMMMb  dMMMP   dMMMMK"" dMP dMP dMMMP   dMMMMK""  " 
+    write_banner_darkblue " dMP.aMP dMP dMP dMP     dMP            dMP.dMP.dMP dMP dMP dMP dP .dMP dMP     dMP""AMF  YMvAP"" dMP     dMP""AMF   "   
+    write_banner_darkblue " dMMMMP"" dMP dMP dMMMMMP dMMMMMP         VMMMPVMMP"" dMP dMP dMP  VMMMP"" dMMMMMP dMP dMP    VP""  dMMMMMP dMP dMP " 
 
-    write_banner_blue $cool_info;
+    write_banner_red $cool_info;
     write_banner_white '>> Author : David Lejeune' 
     write_banner_white ">> Created : 02-03-2019"
-    write_banner_red $Menu;
+    write_banner_darkblue $Menu;
     Write-Host ''
 
 }
@@ -124,7 +129,7 @@ function show_header(){
     $computer_name=$env:ComputerName
     $os = Get-WmiObject -Class Win32_OperatingSystem | ForEach-Object -MemberName Caption;
     $cool_info= "[OS:$os]   [DOMAIN:$user_domain]   [COMPUTER NAME:$computer_name]   [USER:$user_name]";
-    write_reverse_banner_blue "$dt";
+    write_reverse_banner_darkblue "$dt";
     write_reverse_banner_red "WinServer CLI";
     #Write-Host '....%%%%%....%%%%...%%......%%%%%%..........%%...%%..%%%%%%..%%..%%...%%%%...%%%%%%..%%%%%...%%..%%..%%%%%%..%%%%%.....' -ForegroundColor Yellow
     #Write-Host '....%%..%%..%%..%%..%%......%%..............%%...%%....%%....%%%.%%..%%......%%......%%..%%..%%..%%..%%......%%..%%....' -ForegroundColor Yellow
@@ -145,16 +150,61 @@ function show_header(){
     #Write-Host " / /_// (_| / /__|  __/  \  /\  /| | | | |\ \  __/ |   \ V /  __/ |   " -ForegroundColor Yellow  
     #Write-Host "/___,' \__,_\____/\___|   \/  \/ |_|_| |_\__/\___|_|    \_/ \___|_|  " -ForegroundColor Yellow  
     
-    Write-Host "    dMMMMb  .aMMMb  dMP     dMMMMMP        dMP dMP dMP dMP dMMMMb  .dMMMb  dMMMMMP dMMMMb  dMP dMP dMMMMMP dMMMMb " -ForegroundColor Yellow  
-    Write-Host "   dMP VMP dMP""dMP dMP     dMP            dMP dMP dMP amr dMP dMP dMP"" VP dMP     dMP.dMP dMP dMP dMP     dMP.dMP " -ForegroundColor Yellow  
-    Write-Host "  dMP dMP dMMMMMP dMP     dMMMP          dMP dMP dMP dMP dMP dMP  VMMMb  dMMMP   dMMMMK"" dMP dMP dMMMP   dMMMMK""  " -ForegroundColor Yellow  
-    Write-Host " dMP.aMP dMP dMP dMP     dMP            dMP.dMP.dMP dMP dMP dMP dP .dMP dMP     dMP""AMF  YMvAP"" dMP     dMP""AMF   " -ForegroundColor Yellow  
-    Write-Host " dMMMMP"" dMP dMP dMMMMMP dMMMMMP         VMMMPVMMP"" dMP dMP dMP  VMMMP"" dMMMMMP dMP dMP    VP""  dMMMMMP dMP dMP " -ForegroundColor Yellow  
+    write_banner_darkblue "    dMMMMb  .aMMMb  dMP     dMMMMMP        dMP dMP dMP dMP dMMMMb  .dMMMb  dMMMMMP dMMMMb  dMP dMP dMMMMMP dMMMMb "  
+    write_banner_darkblue "   dMP VMP dMP""dMP dMP     dMP            dMP dMP dMP amr dMP dMP dMP"" VP dMP     dMP.dMP dMP dMP dMP     dMP.dMP " 
+    write_banner_darkblue "  dMP dMP dMMMMMP dMP     dMMMP          dMP dMP dMP dMP dMP dMP  VMMMb  dMMMP   dMMMMK"" dMP dMP dMMMP   dMMMMK""  " 
+    write_banner_darkblue " dMP.aMP dMP dMP dMP     dMP            dMP.dMP.dMP dMP dMP dMP dP .dMP dMP     dMP""AMF  YMvAP"" dMP     dMP""AMF   "   
+    write_banner_darkblue " dMMMMP"" dMP dMP dMMMMMP dMMMMMP         VMMMPVMMP"" dMP dMP dMP  VMMMP"" dMMMMMP dMP dMP    VP""  dMMMMMP dMP dMP " 
     write_reverse_banner_red $cool_info;
-    write_banner_blue $Menu;
+    write_banner_darkblue $Menu;
     Write-Host ''
 }
 
+function write_banner_darkblue($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor darkblue -ForegroundColor white;
+}
+
+function write_reverse_banner_darkblue($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor Darkblue -ForegroundColor white;
+}
+function write_banner_darkgray($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor darkgray -ForegroundColor white;
+}
+
+function write_reverse_banner_darkgray($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor DarkGray -ForegroundColor white;
+}
+function write_banner_yellow($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host ' ' $entry '' $filler  -BackgroundColor yellow -ForegroundColor Black;
+}
+
+function write_reverse_banner_yellow($entry){
+    $filler="";
+    For ($i=2; $i -le 116 - $entry.length; $i++) {
+        $filler=' ' + $filler;
+        }
+    Write-Host '' $filler '' $entry '' -BackgroundColor yellow -ForegroundColor Black;
+}
 function write_banner_white($entry){
     $filler="";
     For ($i=2; $i -le 116 - $entry.length; $i++) {

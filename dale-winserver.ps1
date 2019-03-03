@@ -58,19 +58,31 @@ $Menu69="Return to main menu"
 $MenuQ = "Quit"
 $Menu99 = "Show description"
 
+$Menu666="Full Install";
+
 # AD
 $Menu1 = "Active Directory"
-$Menu10 = "AD Sync"
-$Menu10a = $Menu10
+    $Menu10 = "AD Sync"
+    $Menu10a = $Menu10
 
 
 # Windows Server
 $Menu2="Windows Server"
-$Menu20="Server Roles"
-$Menu200="List installed Server Roles"
-$Menu201="Search Server Roles"
-$Menu202="Add Server Role"
-$Menu203="Remove Server Role"
+
+    $Menu20="Server Roles"
+        $Menu200="List installed Server Roles"
+        $Menu201="Search Server Roles"
+        $Menu202="Add Server Role"
+        $Menu203="Remove Server Role"
+
+    $Menu21="Server Variables"
+        $Menu210="Computer Name"
+            $computer=$env:computername
+            $Menu210=$Menu210 + ' > ' + $computer;
+        $Menu211="Workgroup Name"
+            $workgroupname=(Get-WmiObject -Class Win32_ComputerSystem).Workgroup
+            $Menu211=$Menu211 + ' > ' + $workgroupname;
+
 
 #------------------------------------------------------------------------------
 #Functions
@@ -111,7 +123,7 @@ function show_headerintro(){
     write_banner_darkblue "...%%..%%..%%%%%%..%%......%%%%...........%%.%.%%....%%....%%.%%%...%%%%...%%%%....%%%%%...%%..%%..%%%%....%%%%%..."
     write_banner_darkblue "...%%..%%..%%..%%..%%......%%.............%%%%%%%....%%....%%..%%......%%..%%......%%..%%...%%%%...%%......%%..%%.."
     write_banner_darkblue "...%%%%%...%%..%%..%%%%%%..%%%%%%..........%%.%%...%%%%%%..%%..%%...%%%%...%%%%%%..%%..%%....%%....%%%%%%..%%..%%.."
-    write_banner_red $cool_info;
+    write_reverse_banner_red $cool_info;
     write_banner_darkblue $Menu;
     write-host '';
     write_banner_white '>> Author : David Lejeune' 
@@ -477,7 +489,28 @@ function ask_menu(){
             remove_server_role;
         }
 
-
+        "21"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu21;
+            show_servervariables_menu;
+        }
+        "210"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu210;
+            show_header;
+            computer_name;
+            show_servervariables_menu;
+        }
+        "211"
+        {
+            #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+            $Menu       = $Menu211;
+            show_header;
+            get_workgroup;
+            show_servervariables_menu;
+        }
 
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
@@ -497,6 +530,13 @@ function ask_menu(){
                 show_description;
             }
 
+            "66"
+            {
+                #Write-Host "`nYou have selected $(($Menu69).ToUpper())`n" -ForegroundColor DarkGreen;
+                $Menu       =  $Menu66;
+                full_install;
+            }
+
             "69"
             {
                 #Write-Host "`nYou have selected $(($Menu69).ToUpper())`n" -ForegroundColor DarkGreen;
@@ -514,6 +554,11 @@ function ask_menu(){
 
 }
 
+function full_install(){
+    show_header;
+
+}
+
 function show_ad_menu(){
     show_header;
     ad_menu;
@@ -528,6 +573,10 @@ function show_serverroles_menu(){
     serverroles_menu;
 }
 
+function show_servervariables_menu(){
+    show_header;
+    servervariables_menu;
+}
 function show_main_menu(){
     show_header;
     main_menu;
@@ -606,6 +655,24 @@ function winserver_menu(){
     standard_options;
 }
 
+function servervariables_menu(){
+    
+    Write-Host " Menu :" -ForegroundColor Magenta;
+    Write-Host " " ;
+
+    Write-Host '    210.   '$Menu210  -ForegroundColor Gray;
+    Write-Host '    211.   '$Menu211  -ForegroundColor Gray;
+    Write-Host '    '#212.   '$Menu212  -ForegroundColor Gray;
+    Write-Host '    '#213.   '$Menu213  -ForegroundColor Gray;
+    Write-Host '    '#214.   '$Menu214  -ForegroundColor Gray;
+    Write-Host '    '#215.   '$Menu215  -ForegroundColor Gray;
+    Write-Host '    '#216.   '$Menu216  -ForegroundColor Gray;
+    Write-Host '    '#217.   '$Menu217  -ForegroundColor Gray;
+    Write-Host '    '#218.   '$Menu218  -ForegroundColor Gray;
+    Write-Host '    '#219.   '$Menu219  -ForegroundColor Gray;
+
+    standard_options;
+}
 
 function show_serverroles_menu(){
     show_header;
@@ -618,7 +685,7 @@ function serverroles_menu(){
 
     Write-Host '    200.   '$Menu200  -ForegroundColor Gray;
     Write-Host '    201.   '$Menu201  -ForegroundColor Gray;
-    Write-Host '    202.   '$Menu202  -ForegroundColor Gray;
+    Write-Host '    202.    '$Menu202  -ForegroundColor Gray;
     Write-Host '    203.   '$Menu203  -ForegroundColor Gray;
     Write-Host '    '#24.   '$Menu24  -ForegroundColor Gray;
     Write-Host '    '#25.   '$Menu25  -ForegroundColor Gray;
@@ -663,6 +730,115 @@ function search_server_roles(){
             {
                 $SearchValue = '*'+$Continue+'*' ;
                 list_server_roles $SearchValue;
+            }
+    }
+}
+
+function computer_name(){
+    $str="Computer Name is " + $computer;
+    write_banner_info $str;
+    $Host.UI.RawUI.ForegroundColor = 'white'
+    $Continue = Read-Host -Prompt 'Would you like to change the Computer Name ? [y/N] ';
+    switch ($Continue)
+    {
+        y
+            {
+                $Host.UI.RawUI.ForegroundColor = 'white'
+                $NewName = Read-Host -Prompt 'Enter the new Computer Name ';
+                switch ($NewName) {
+                    ""
+                        {
+                            write_banner_warning "You didn't enter a valid name"
+                            pause
+                            show_header;
+                            servervariables_menu;
+                        }
+                    default 
+                        {
+                            write_banner_warning "This will rename the computer and restart the server."
+                            Rename-Computer -ComputerName $computer -NewName $NewName -Restart;
+                            ProcessingAnimation { Start-Sleep 5 };
+                            pause;
+                            show_header;
+                            servervariables_menu;
+                                        
+                            exit
+                        }
+                }
+
+            }
+
+        default
+            {
+                $Menu=$Menu21
+                show_header;
+                servervariables_menu;
+            }
+    }
+}
+
+function is_part_of_domain(){
+    # PartOfDomain (boolean Property)
+    return (Get-WmiObject -Class Win32_ComputerSystem).PartOfDomain
+}
+
+function get_workgroup(){
+    #$status=is_part_of_domain;
+    #if ($status -eq $False) 
+    #{
+        #write_banner_warning "This computer is not part of a domain"
+        #pause
+        #show_header
+        #servervariables_menu
+
+    #}
+    #Else 
+    #{
+        # Workgroup (string Property)
+        $workgroup_name = (Get-WmiObject -Class Win32_ComputerSystem).Workgroup;
+        $str="The Workgroup Name is " + $workgroup_name;
+        write_banner_info $str;
+        change_workgroup_name;
+        servervariables_menu
+    #}
+    
+}
+
+function change_workgroup_name(){
+    $Host.UI.RawUI.ForegroundColor = 'white'
+    $Continue = Read-Host -Prompt 'Would you like to change the Workgroup Name ? [y/N] ';
+    switch ($Continue)
+    {
+        y
+            {
+                $Host.UI.RawUI.ForegroundColor = 'white'
+                $NewName = Read-Host -Prompt 'Enter the new Workgroup Name ';
+                switch ($NewName) {
+                    ""
+                        {
+                            write_banner_warning "You didn't enter a valid name"
+                            pause
+                            show_header;
+                            servervariables_menu;
+                        }
+                    default {
+                        write_banner_warning "This will rename the Workgroup and restart the server."
+                        Add-Computer -WorkGroupName $NewName -Restart;
+                        ProcessingAnimation { Start-Sleep 5 };
+                        pause;
+                        show_header;
+                        servervariables_menu;
+                        exit
+                    }
+                }
+
+            }
+
+        default
+            {
+                $Menu=$Menu21
+                show_header;
+                servervariables_menu;
             }
     }
 }

@@ -93,6 +93,7 @@ $Host.PrivateData.ProgressBackgroundColor = $bckgrnd
     $Menu4="Windows Updates"
         $Menu40="List installed Windows Updates"
         $Menu41="List available Windows Updates"
+        $Menu42="Install available Windows Updates"
 
 
 #------------------------------------------------------------------------------
@@ -318,7 +319,7 @@ function write_reverse_banner_darkgreen($entry){
 
 function import_pswindowsupdate_module(){
     write_banner_action "Installing PSWindowsUpdate module";
-    Start-Sleep 1;
+    #Start-Sleep 1;
     ProcessingAnimation { Install-Module PSWindowsUpdate };
     if (Get-Module -ListAvailable -Name "PSWindowsUpdate") {
         $Menu40 = "PSWindowsUpdate"
@@ -326,8 +327,22 @@ function import_pswindowsupdate_module(){
         Start-Sleep 1;
          } 
     else {
-        $Menu40 = $Menu40 + " [Module not present]";
-        write_banner_red "Module PSWindowsUpdate could not be installed"
+        $Menu40 = $Menu40 + " [Module not present]";    
+        write_banner_action "Installing PSWindowsUpdate module";
+        Start-Sleep 1;
+        ProcessingAnimation { Install-Module PSWindowsUpdate };
+        if (Get-Module -ListAvailable -Name "PSWindowsUpdate") {
+            $Menu40 = "PSWindowsUpdate"
+            write_banner_white "PSWindowsUpdate installed ";
+            Start-Sleep 1;
+             } 
+        else {
+            $Menu40 = $Menu40 + " [Module not present]";
+            write_banner_red "Module PSWindowsUpdate could not be installed"
+            #Start-Sleep 3;
+            pause;
+            show_updates_menu;
+        }
         #Start-Sleep 3;
         pause;
         show_updates_menu;
@@ -628,6 +643,22 @@ function ask_menu(){
                     
                 }
 
+                "42"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu42;
+                    show_header;
+                    write_banner_warning "This will install all updates and reboot if neccessary."
+                    $Host.UI.RawUI.ForegroundColor = 'Yellow'
+                    install_available_updates;
+                    $Host.UI.RawUI.ForegroundColor = 'white'
+                    write-host '';
+                    pause;
+                    show_updates_menu;
+
+                    
+                }
+
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
             "q"
@@ -679,6 +710,10 @@ function list_installed_updates(){
 function list_available_updates(){
     get-wulist
    }
+function install_available_updates(){
+    #Get-WindowsUpdate -Verbose
+    Install-WindowsUpdate -Verbose -AcceptAll -AutoReboot;
+    }
 
 function full_install(){
     
@@ -686,6 +721,9 @@ function full_install(){
     computer_name;
     
     get_workgroup;
+
+    import_pswindowsupdate_module;
+    install_available_updates;
 
 
 

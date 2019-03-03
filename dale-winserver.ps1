@@ -314,7 +314,8 @@ function ask_menu(){
             # STANDARD OPTIONS
             "q"
             {
-                Write-Host "`nYou have selected $(($MenuQ).ToUpper())`n" -ForegroundColor DarkGreen;
+                write_banner_info "You have selected $MenuQ" ;
+                #Write-Host "`nYou have selected $(($MenuQ).ToUpper())`n" -ForegroundColor DarkGreen;
                 $Menu       = $MenuQ;
                 exit;
                 exit;

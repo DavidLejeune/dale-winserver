@@ -27,7 +27,7 @@ $newSize.Width = 120
 $psWindow.BufferSize = $newSize
 
 $newSize = $psWindow.WindowSize
-$newSize.Height = 50
+$newSize.Height = 40
 $newSize.Width = 120
 
 $psWindow.WindowSize= $newSize
@@ -94,6 +94,7 @@ $Host.PrivateData.ProgressBackgroundColor = $bckgrnd
         $Menu40="List installed Windows Updates"
         $Menu41="List available Windows Updates"
         $Menu42="Install available Windows Updates"
+        $Menu43="Download available Windows Updates"
 
 
 #------------------------------------------------------------------------------
@@ -327,17 +328,17 @@ function import_pswindowsupdate_module(){
         Start-Sleep 1;
          } 
     else {
-        $Menu40 = $Menu40 + " [Module not present]";    
-        write_banner_action "Installing PSWindowsUpdate module";
+        #$Menu40 = $Menu40 + " [Module not present]";    
+        write_banner_action "importing PSWindowsUpdate module";
         Start-Sleep 1;
-        ProcessingAnimation { Install-Module PSWindowsUpdate };
+        ProcessingAnimation { import-Module PSWindowsUpdate };
         if (Get-Module -ListAvailable -Name "PSWindowsUpdate") {
             $Menu40 = "PSWindowsUpdate"
             write_banner_white "PSWindowsUpdate installed ";
             Start-Sleep 1;
              } 
         else {
-            $Menu40 = $Menu40 + " [Module not present]";
+            #$Menu40 = $Menu40 + " [Module not present]";
             write_banner_red "Module PSWindowsUpdate could not be installed"
             #Start-Sleep 3;
             pause;
@@ -659,6 +660,22 @@ function ask_menu(){
                     
                 }
 
+                "43"
+                {
+                    #Write-Host "`nYou have selected $(($Menu1).ToUpper())`n" -ForegroundColor DarkGreen;
+                    $Menu       = $Menu43;
+                    show_header;
+                    write_banner_warning "This will install all updates and reboot if neccessary."
+                    $Host.UI.RawUI.ForegroundColor = 'Yellow'
+                    download_available_updates;
+                    $Host.UI.RawUI.ForegroundColor = 'white'
+                    write-host '';
+                    pause;
+                    show_updates_menu;
+
+                    
+                }
+
             # -----------------------------------------------------------------------------------
             # STANDARD OPTIONS
             "q"
@@ -703,18 +720,22 @@ function ask_menu(){
 }
 
 function list_installed_updates(){
-    get-hotfix | Format-Table ;
+    get-hotfix -verbose | Format-Table ;
 
 }
 
 function list_available_updates(){
-    get-wulist
+    get-wulist -verbose;
    }
 function install_available_updates(){
     #Get-WindowsUpdate -Verbose
     Install-WindowsUpdate -Verbose -AcceptAll -AutoReboot;
     }
 
+function download_available_updates(){
+    #Get-WindowsUpdate -Verbose
+    get-WindowsUpdate -Verbose -AcceptAll -Download;
+    }
 function full_install(){
     
     show_header;
